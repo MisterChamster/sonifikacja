@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 # is around 25k which is 15 seconds. More than that will be a slog and we
 # don't want that.
 
+# xnorm = (x-xmin)\(xmax-xmin)
+
 
 
 def mainloop():
@@ -17,6 +19,8 @@ def mainloop():
 
     loaded_boi = pd.read_csv(datafile_path, sep=" \n", engine='python', header=None)
     print(loaded_boi)
+    min_ds_val = loaded_boi.min()
+    max_ds_val = loaded_boi.max()
     row_count = len(loaded_boi.index)
     print(row_count)
     loaded_boi.hist(bins=int(row_count/10))
