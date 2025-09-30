@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 
 def mainloop():
-    print("Choose data file in txt format:")
+    print("Choose data file in txt/csv format:")
     datafile_path = ask_path_filedialog("f", "Choose data txt file")
     if not datafile_path.endswith(".txt"):
         print("Wrong file format")
@@ -19,10 +19,15 @@ def mainloop():
 
     loaded_boi = pd.read_csv(datafile_path, header=None, names=["values"], skipinitialspace=True)
     print(loaded_boi)
+
+# Get pandas.Series objects and convert them to floats. There was a 
+# FutureWarning regarding a blatant type casting to float :((
     min_ds_val = loaded_boi.min()
+    min_ds_val = float(min_ds_val["values"])
     max_ds_val = loaded_boi.max()
+    max_ds_val = float(max_ds_val["values"])
     diff = max_ds_val-min_ds_val
-    loaded_boi = loaded_boi.map(lambda x: float((x-min_ds_val)/(diff)))
+    loaded_boi = loaded_boi.map(lambda x: (x-min_ds_val)/(diff))
     print(loaded_boi)
 
     row_count = len(loaded_boi.index)
