@@ -20,13 +20,15 @@ def mainloop():
     loaded_boi = pd.read_csv(datafile_path, header=None, names=["values"], skipinitialspace=True)
     print(loaded_boi)
 
-# Get pandas.Series objects and convert them to floats. There was a 
-# FutureWarning regarding a blatant type casting to float :((
+    # Get pandas.Series objects and convert them to floats. There was a 
+    # FutureWarning regarding a blatant type casting to float :((
     min_ds_val = loaded_boi.min()
     min_ds_val = float(min_ds_val["values"])
     max_ds_val = loaded_boi.max()
     max_ds_val = float(max_ds_val["values"])
     diff = max_ds_val-min_ds_val
+
+    # Normalization
     loaded_boi = loaded_boi.map(lambda x: (x-min_ds_val)/(diff))
     print(loaded_boi)
 
