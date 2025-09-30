@@ -1,4 +1,5 @@
 from src.askers import ask_path_filedialog
+from src.utils import get_open_close_for_chunks
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
