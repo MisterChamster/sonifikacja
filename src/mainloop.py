@@ -17,10 +17,14 @@ def mainloop():
         return
     print(datafile_path)
 
-    loaded_boi = pd.read_csv(datafile_path, sep=" \n", engine='python', header=None)
+    loaded_boi = pd.read_csv(datafile_path, header=None, names=["values"], skipinitialspace=True)
     print(loaded_boi)
     min_ds_val = loaded_boi.min()
     max_ds_val = loaded_boi.max()
+    diff = max_ds_val-min_ds_val
+    loaded_boi = loaded_boi.map(lambda x: float((x-min_ds_val)/(diff)))
+    print(loaded_boi)
+
     row_count = len(loaded_boi.index)
     print(row_count)
     loaded_boi.hist(bins=int(row_count/10))
