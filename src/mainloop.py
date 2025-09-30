@@ -5,8 +5,6 @@ import matplotlib.pyplot as plt
 # is around 25k which is 15 seconds. More than that will be a slog and we
 # don't want that.
 
-# xnorm = (x-xmin)\(xmax-xmin)
-
 
 
 def mainloop():
@@ -17,8 +15,9 @@ def mainloop():
         return
     print(datafile_path)
 
+    # Load file
     loaded_boi = pd.read_csv(datafile_path, header=None, names=["values"], skipinitialspace=True)
-    print(loaded_boi)
+    # print(loaded_boi)
 
     # Get pandas.Series objects and convert them to floats. There was a 
     # FutureWarning regarding a blatant type casting to float :((
@@ -28,15 +27,17 @@ def mainloop():
     max_ds_val = float(max_ds_val["values"])
     diff = max_ds_val-min_ds_val
 
-    # Normalization
+    # Normalization xnorm = (x-xmin)\(xmax-xmin)
     loaded_boi = loaded_boi.map(lambda x: (x-min_ds_val)/(diff))
     print(loaded_boi)
 
     row_count = len(loaded_boi.index)
     print(row_count)
-    loaded_boi.hist(bins=int(row_count/10))
 
-    plt.xlabel('Value')
-    plt.ylabel('Frequency')
-    plt.title('Histogram of Value')
+    # plt.plot(loaded_boi.index, loaded_boi["values"], linestyle="None", marker="o")
+    plt.scatter(loaded_boi.index, loaded_boi["values"], s=1)  # s = point size
+
+    plt.xlabel('Um whatever idk yet')
+    plt.ylabel('Value')
+    plt.title('A VERY Cool Chart')
     plt.show()
