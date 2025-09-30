@@ -1,6 +1,7 @@
 from src.askers import ask_path_filedialog
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MultipleLocator
 # So, a border reasonable num of putting rows in hist with loaded_boi.hist()
 # is around 25k which is 15 seconds. More than that will be a slog and we
 # don't want that.
@@ -18,6 +19,10 @@ def mainloop():
     # Load file
     loaded_boi = pd.read_csv(datafile_path, header=None, names=["values"], skipinitialspace=True)
     # print(loaded_boi)
+
+    # Data segmentation - averaging samples into n-sample bins
+    # n = 10
+    # loaded_boi = loaded_boi.groupby(loaded_boi.index // n).mean()
 
     # Get pandas.Series objects and convert them to floats. There was a 
     # FutureWarning regarding a blatant type casting to float :((
