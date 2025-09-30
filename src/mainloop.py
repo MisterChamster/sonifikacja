@@ -17,6 +17,8 @@ def mainloop() -> None:
         return
     print(datafile_path)
 
+    get_open_close_for_chunks(datafile_path, 3000)
+
     # Load file
     loaded_boi = pd.read_csv(datafile_path, header=None, names=["values"], skipinitialspace=True)
     # print(loaded_boi)
