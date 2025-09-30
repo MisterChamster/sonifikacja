@@ -1,5 +1,5 @@
 from src.askers import ask_path_filedialog
-from src.utils import get_open_close_for_chunks
+from src.utils import get_open_close_for_chunks, get_peaks_x_vals
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
@@ -38,7 +38,8 @@ def mainloop() -> None:
     loaded_boi = loaded_boi.map(lambda x: (x-min_ds_val)/(diff))
     print(loaded_boi)
 
-    get_open_close_for_chunks(datafile_path, min_ds_val, max_ds_val, 2000)
+    general_chunk_vals = get_open_close_for_chunks(datafile_path, 2000, min_ds_val, max_ds_val)
+    get_peaks_x_vals(general_chunk_vals, 2000)
 
     row_count = len(loaded_boi.index)
     print(row_count)
@@ -51,4 +52,4 @@ def mainloop() -> None:
     plt.gca().xaxis.set_major_locator(MultipleLocator(20000))
     plt.gca().yaxis.set_major_locator(MultipleLocator(0.1))
     plt.title('A VERY Cool Chart')
-    # plt.show()
+    plt.show()
