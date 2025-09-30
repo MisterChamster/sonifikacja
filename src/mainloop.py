@@ -17,8 +17,6 @@ def mainloop() -> None:
         return
     print(datafile_path)
 
-    get_open_close_for_chunks(datafile_path, 3000)
-
     # Load file
     loaded_boi = pd.read_csv(datafile_path, header=None, names=["values"], skipinitialspace=True)
     # print(loaded_boi)
@@ -40,6 +38,8 @@ def mainloop() -> None:
     loaded_boi = loaded_boi.map(lambda x: (x-min_ds_val)/(diff))
     print(loaded_boi)
 
+    get_open_close_for_chunks(datafile_path, min_ds_val, max_ds_val, 2000)
+
     row_count = len(loaded_boi.index)
     print(row_count)
 
@@ -51,4 +51,4 @@ def mainloop() -> None:
     plt.gca().xaxis.set_major_locator(MultipleLocator(20000))
     plt.gca().yaxis.set_major_locator(MultipleLocator(0.1))
     plt.title('A VERY Cool Chart')
-    plt.show()
+    # plt.show()
