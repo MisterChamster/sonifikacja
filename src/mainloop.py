@@ -8,7 +8,7 @@ from matplotlib.ticker import MultipleLocator
 
 
 
-def mainloop():
+def mainloop() -> None:
     print("Choose data file in txt/csv format:")
     datafile_path = ask_path_filedialog("f", "Choose data txt file")
     if not datafile_path.endswith(".txt"):
@@ -33,6 +33,7 @@ def mainloop():
     diff = max_ds_val-min_ds_val
 
     # Normalization xnorm = (x-xmin)\(xmax-xmin)
+    # Comment this line get non-normalized data
     loaded_boi = loaded_boi.map(lambda x: (x-min_ds_val)/(diff))
     print(loaded_boi)
 
@@ -42,7 +43,9 @@ def mainloop():
     # plt.plot(loaded_boi.index, loaded_boi["values"], linestyle="None", marker="o")
     plt.scatter(loaded_boi.index, loaded_boi["values"], s=1)  # s = point size
 
-    plt.xlabel('Um whatever idk yet')
+    plt.xlabel('Um whatever idk yet. Time? I guess time. I gotta check frequency of the measurement i think.')
     plt.ylabel('Value')
+    plt.gca().xaxis.set_major_locator(MultipleLocator(20000))
+    plt.gca().yaxis.set_major_locator(MultipleLocator(0.1))
     plt.title('A VERY Cool Chart')
     plt.show()
