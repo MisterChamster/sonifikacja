@@ -60,5 +60,14 @@ def get_peaks_x_vals(general_chunk_vals: list, chunk_size: int) -> list:
 
     peak_xes = [int(a*chunk_size) for a in peak_chunks]
     print(peak_xes)
+    return peak_xes
 
 
+def get_peaks_ys(peak_xes: list, first_peak: bool) -> list:
+    peak_ys = []
+    for i in range(len(peak_xes)):
+        if i%2:
+            peak_ys.append(0.2)
+        else:
+            peak_ys.append(0.8)
+    return peak_ys
