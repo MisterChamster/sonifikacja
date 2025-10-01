@@ -16,3 +16,18 @@ def ask_path_filedialog(type, message):
 
     os.chdir(original_path)
     return sel_path
+
+
+def ask_normalize():
+    rets_dict = {"y": 1,
+                 "n": 0}
+
+    while True:
+        print("Do You want to normalize the data? (y/n)\n" \
+            ">> ", end="")
+        asker = input()
+
+        if asker in rets_dict:
+            return rets_dict[asker]
+        else:
+            print("Incorrect input.\n\n")

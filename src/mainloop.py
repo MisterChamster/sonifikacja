@@ -1,4 +1,4 @@
-from src.askers import ask_path_filedialog
+from src.askers import ask_path_filedialog, ask_normalize
 from src.utils import get_open_close_for_chunks, get_peak_coordinates
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -10,9 +10,11 @@ from matplotlib.ticker import MultipleLocator
 
 
 def mainloop() -> None:
+    asker_normalize = ask_normalize()
+
     print("Choose data file in txt/csv format:")
     datafile_path = ask_path_filedialog("f", "Choose data txt file")
-    if not datafile_path.endswith(".txt"):
+    if not datafile_path.endswith(".txt") and not datafile_path.endswith(".csv"):
         print("Wrong file format")
         return
     print(datafile_path)
@@ -33,23 +35,30 @@ def mainloop() -> None:
     max_ds_val = float(max_ds_val["values"])
     diff = max_ds_val-min_ds_val
 
-    # Normalization xnorm = (x-xmin)\(xmax-xmin)
-    # Comment this line get non-normalized data
-    loaded_boi = loaded_boi.map(lambda x: (x-min_ds_val)/(diff))
-    print(loaded_boi)
-
+    # Getting peaks
     # general_chunk_vals = get_open_close_for_chunks(datafile_path, 2000, min_ds_val, max_ds_val)
     peak_coords = get_peak_coordinates(datafile_path, 2000, min_ds_val, max_ds_val)
     for el in peak_coords:
         print(el)
-    # peak_xes = 
-    # peak_ys  = 
+    peak_xes = [a[0] for a in peak_coords]
+    peak_ys  = [a[1] for a in peak_coords]
+
+    # Normalization xnorm = (x-xmin)\(xmax-xmin)
+    # Comment this line get non-normalized data
+    if asker_normalize == True:
+        loaded_boi = loaded_boi.map(lambda x: (x-min_ds_val)/(diff))
+        print(loaded_boi)
+
+        for el in peak_ys:
+            el = (el-min_ds_val)/(diff)
+    print(asker_normalize)
+    print(peak_ys)
 
     # row_count = len(loaded_boi.index)
     # print(row_count)
 
     plt.scatter(loaded_boi.index, loaded_boi["values"], s=1)
-    # plt.scatter(peak_xes, peak_ys, marker="x", colorizer="red", s=220, linewidths=3)
+    plt.scatter(peak_xes, peak_ys, marker="x", colorizer="red", s=220, linewidths=3)
 
     plt.xlabel('Um whatever idk yet. Time? I guess time. I gotta check frequency of the measurement i think.')
     plt.ylabel('Value')
