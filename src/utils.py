@@ -1,4 +1,5 @@
 import pandas as pd
+from math import floor
 
 
 
@@ -53,7 +54,6 @@ def get_peak_coordinates (datafile_path: str, chunk_size: int, min_ds_val: float
     # Equated, not fixed in case non-normalized data comes in
     mid_file_value = (min_ds_val+max_ds_val)/2
     whole_chunks_count = int(line_count/chunk_size)
-    print("whole_chunks_count: ", whole_chunks_count)
     chunk_avgs_on_level = []
     last_chunk_level = None
 
@@ -93,10 +93,23 @@ def get_peak_coordinates (datafile_path: str, chunk_size: int, min_ds_val: float
             first_chunk_on_curr_level = i-level_len
             last_chunk_on_curr_level = i-1
             mid_chunk = (first_chunk_on_curr_level+last_chunk_on_curr_level)/2
-            print("mid_chunk: ", mid_chunk)
+            # print(mid_chunk)
+
+            # Get middle chunk avg height
+            if mid_chunk == int(mid_chunk):
+                mid_chunk_avg_height = chunk_avgs_on_level[floor(level_len/2)]
+            else:
+                tmp1 = chunk_avgs_on_level[int(level_len/2)]
+                tmp2 = chunk_avgs_on_level[int(level_len/2)-1]
+                mid_chunk_avg_height = (tmp1+tmp2)/2
+            # print("MIDASSSSSS: ", mid_chunk_avg_height)
+
+            mid_chunk_midpoint_x = mid_chunk*chunk_size
+            ret_peaks_coords.append([mid_chunk_midpoint_x, mid_chunk_avg_height])
+
 
             last_chunk_level = current_chunk_level
-            chunk_avgs_on_level = []
+            chunk_avgs_on_level = [avg]
 
         i += 1
 

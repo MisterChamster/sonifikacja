@@ -39,12 +39,14 @@ def mainloop() -> None:
     print(loaded_boi)
 
     # general_chunk_vals = get_open_close_for_chunks(datafile_path, 2000, min_ds_val, max_ds_val)
-    get_peak_coordinates(datafile_path, 2000, min_ds_val, max_ds_val)
+    peak_coords = get_peak_coordinates(datafile_path, 2000, min_ds_val, max_ds_val)
+    for el in peak_coords:
+        print(el)
     # peak_xes = get_peaks_x_vals(general_chunk_vals, 2000)
     # peak_ys  = get_peaks_ys(peak_xes, general_chunk_vals[0])
 
-    row_count = len(loaded_boi.index)
-    print(row_count)
+    # row_count = len(loaded_boi.index)
+    # print(row_count)
 
     # plt.plot(loaded_boi.index, loaded_boi["values"], linestyle="None", marker="o")
     plt.scatter(loaded_boi.index, loaded_boi["values"], s=1)
