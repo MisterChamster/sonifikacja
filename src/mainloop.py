@@ -11,6 +11,7 @@ from matplotlib.ticker import MultipleLocator
 
 def mainloop() -> None:
     asker_normalize = ask_normalize()
+    print()
 
     print("Choose data file in txt/csv format:")
     datafile_path = ask_path_filedialog("f", "Choose data txt file")
@@ -49,10 +50,10 @@ def mainloop() -> None:
         loaded_boi = loaded_boi.map(lambda x: (x-min_ds_val)/(diff))
         print(loaded_boi)
 
-        for el in peak_ys:
-            el = (el-min_ds_val)/(diff)
-    print(asker_normalize)
-    print(peak_ys)
+        for i in range(len(peak_ys)):
+            peak_ys[i] = (peak_ys[i]-min_ds_val)/(diff)
+    # print(asker_normalize)
+    # print(peak_ys)
 
     # row_count = len(loaded_boi.index)
     # print(row_count)
@@ -62,7 +63,7 @@ def mainloop() -> None:
 
     plt.xlabel('Um whatever idk yet. Time? I guess time. I gotta check frequency of the measurement i think.')
     plt.ylabel('Value')
-    plt.gca().xaxis.set_major_locator(MultipleLocator(20000))
+    plt.gca().xaxis.set_major_locator(MultipleLocator(1000))
     plt.gca().yaxis.set_major_locator(MultipleLocator(0.1))
     plt.title('A VERY Cool Chart')
     plt.show()
