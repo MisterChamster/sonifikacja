@@ -62,8 +62,8 @@ def mainloop() -> None:
     plt.scatter(loaded_boi.index, loaded_boi["values"], s=1)
     plt.scatter(peak_xes, peak_ys, marker="x", colorizer="red", s=220, linewidths=3)
 
-    plt.xlabel("Um whatever idk yet. I guess samples. I gotta check frequency of the measurement, this'll clear things out.")
-    plt.ylabel('Value')
+    plt.xlabel("Samples")
+    plt.ylabel("Value")
     if asker_normalize == True:
         y_locators = 0.1
     else:
