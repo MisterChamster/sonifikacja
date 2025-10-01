@@ -42,6 +42,67 @@ def get_open_close_for_chunks(datafile_path: str, chunk_size: int, min_ds_val: f
     return ret_chunk_decider
 
 
+def get_peak_coordinates (datafile_path: str, chunk_size: int, min_ds_val: float, max_ds_val: float) -> list:
+    ret_peaks_coords = []
+
+    line_count = get_line_count(datafile_path)
+    print("Line count: ", line_count)
+    if chunk_size > line_count:
+        raise Exception("Chunk size is bigger than number of lines in the file!!")
+
+    # Equated, not fixed in case non-normalized data comes in
+    mid_file_value = (min_ds_val+max_ds_val)/2
+    whole_chunks_count = int(line_count/chunk_size)
+    print("whole_chunks_count: ", whole_chunks_count)
+    chunk_avgs_on_level = []
+    last_chunk_level = None
+
+    # Analyzing chunks
+    i = 0
+    while i<whole_chunks_count:
+        # Load
+        read_start = i*chunk_size
+        loaded_chunk = pd.read_csv(datafile_path, header=None, names=["values"], skipinitialspace=True, skiprows=range(read_start), nrows=chunk_size)
+
+        # Get average height in chunk
+        summ = 0
+        for j in range(chunk_size):
+            summ += loaded_chunk["values"][j]
+        avg = summ/chunk_size
+
+        # Check level of average chunk height
+        if avg > mid_file_value:
+            current_chunk_level = 1
+        else:
+            current_chunk_level = 0
+
+        # Handle first chunk
+        if not last_chunk_level:
+            chunk_avgs_on_level.append(avg)
+            last_chunk_level = current_chunk_level
+
+        # If on the same level as last one
+        elif current_chunk_level == last_chunk_level:
+            chunk_avgs_on_level.append(avg)
+            last_chunk_level = current_chunk_level
+
+        # If different levels
+        elif current_chunk_level != last_chunk_level:
+            # Get middle chunk index
+            level_len = len(chunk_avgs_on_level)
+            first_chunk_on_curr_level = i-level_len
+            last_chunk_on_curr_level = i-1
+            mid_chunk = (first_chunk_on_curr_level+last_chunk_on_curr_level)/2
+            print("mid_chunk: ", mid_chunk*2000)
+            
+            last_chunk_level = current_chunk_level
+            chunk_avgs_on_level = []
+
+        i += 1
+
+    return ret_peaks_coords
+
+
 def get_peaks_x_vals(general_chunk_vals: list, chunk_size: int) -> list:
     peak_chunks = []
     i = 0
