@@ -75,6 +75,7 @@ def get_peak_coordinates (datafile_path: str, chunk_size: int, min_ds_val: float
             current_chunk_level = 1
         else:
             current_chunk_level = 0
+        # print(str(i*2000) + ". Current level:", current_chunk_level, "Avg:", avg, " Mid file:", mid_file_value)
 
         # Handle first chunk
         if last_chunk_level is None:
@@ -93,18 +94,25 @@ def get_peak_coordinates (datafile_path: str, chunk_size: int, min_ds_val: float
             first_chunk_on_curr_level = i-level_len
             last_chunk_on_curr_level = i-1
             mid_chunk = (first_chunk_on_curr_level+last_chunk_on_curr_level)/2
+            # print("First chunk: ", first_chunk_on_curr_level*2)
+            # print("Midd chunk:  ", mid_chunk*2)
+            # print("Last chunk:  ", last_chunk_on_curr_level*2)
+            # print()
             # print(mid_chunk)
 
             # Get middle chunk avg height
+            # Even (1) mid chunk
             if mid_chunk == int(mid_chunk):
                 mid_chunk_avg_height = chunk_avgs_on_level[floor(level_len/2)]
+            # Odd (2) mid chunks
             else:
                 tmp1 = chunk_avgs_on_level[int(level_len/2)]
                 tmp2 = chunk_avgs_on_level[int(level_len/2)-1]
                 mid_chunk_avg_height = (tmp1+tmp2)/2
             # print("MIDASSSSSS: ", mid_chunk_avg_height)
 
-            mid_chunk_midpoint_x = mid_chunk*chunk_size
+            mid_chunk_midpoint_x = mid_chunk*chunk_size + chunk_size/2
+            # print("Appendage: ", mid_chunk_midpoint_x, mid_chunk_avg_height)
             ret_peaks_coords.append([mid_chunk_midpoint_x, mid_chunk_avg_height])
 
 
