@@ -77,7 +77,7 @@ def get_peak_coordinates (datafile_path: str, chunk_size: int, min_ds_val: float
             current_chunk_level = 0
 
         # Handle first chunk
-        if not last_chunk_level:
+        if last_chunk_level is None:
             chunk_avgs_on_level.append(avg)
             last_chunk_level = current_chunk_level
 
@@ -93,8 +93,8 @@ def get_peak_coordinates (datafile_path: str, chunk_size: int, min_ds_val: float
             first_chunk_on_curr_level = i-level_len
             last_chunk_on_curr_level = i-1
             mid_chunk = (first_chunk_on_curr_level+last_chunk_on_curr_level)/2
-            print("mid_chunk: ", mid_chunk*2000)
-            
+            print("mid_chunk: ", mid_chunk)
+
             last_chunk_level = current_chunk_level
             chunk_avgs_on_level = []
 
