@@ -114,34 +114,3 @@ def get_peak_coordinates (datafile_path: str, chunk_size: int, min_ds_val: float
         i += 1
 
     return ret_peaks_coords
-
-
-def get_peaks_x_vals(general_chunk_vals: list, chunk_size: int) -> list:
-    peak_chunks = []
-    i = 0
-    while i<len(general_chunk_vals):
-        curr_height = general_chunk_vals[i]
-        j = i
-        while j<len(general_chunk_vals):
-            if general_chunk_vals[j] == curr_height:
-                j += 1
-            else:
-                break
-
-        peak_x = (i+j)/2
-        peak_chunks.append(peak_x)
-        i = j
-
-    peak_xes = [int(a*chunk_size) for a in peak_chunks]
-    print(peak_xes)
-    return peak_xes
-
-
-def get_peaks_ys(peak_xes: list, first_peak: bool) -> list:
-    peak_ys = []
-    for i in range(len(peak_xes)):
-        if i%2:
-            peak_ys.append(0.2)
-        else:
-            peak_ys.append(0.8)
-    return peak_ys
